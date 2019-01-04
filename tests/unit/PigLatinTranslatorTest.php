@@ -48,9 +48,9 @@ class PigLatinTranslatorTest extends TestCase
             'three'             => ['three', Separator::NONE(), 'eethray'],
             'rhythms'           => ['rhythms', Separator::NONE(), 'rhythmsay'],
 
-            'hyphen+question'   => ['question', Separator::HYPHEN(), 'estion-quay'],
-            'apostrof+question' => ['question', Separator::APOSTROF(), 'estion\'quay'],
-            'question'          => ['question', Separator::NONE(), 'estionquay'],
+            'hyphen+question'   => ['question', Separator::HYPHEN(), 'uestion-qay'],
+            'apostrof+question' => ['question', Separator::APOSTROF(), 'uestion\'qay'],
+            'question'          => ['question', Separator::NONE(), 'uestionqay'],
         ];
     }
 
@@ -123,7 +123,7 @@ class PigLatinTranslatorTest extends TestCase
             'first Upper'   => ['Beast', 'East-bay',],
             'first lower'   => ['dOUGH', 'ough-day',],
             'lowercase'     => ['happy', 'appy-hay',],
-            'tEeNGirLLcase' => ['qUesTiOn', 'estion-quay',],
+            'tEeNGirLLcase' => ['qUesTiOn', 'uestion-qay',],
             'uppercase'     => ['STAR', 'Ar-stay',],
             'TEeNGirLLcase' => ['ThReE', 'Ee-thray',],
         ];

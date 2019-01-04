@@ -87,7 +87,7 @@ class PigLatinTranslator
      * V případě onom, že vstup začíná velkým písmenem, překlad bude též začínat velkým písmenem a zbytek bode malým,
      * jinak překlad bude vše vráceno jako malé.
      *
-     * @throws /DomainException pokud vstup není identifikován jako slovo
+     * @throws DomainException pokud vstup není identifikován jako slovo
      *
      * @param string $original slovo([a-Z+]) v anglickém jazyce, které má být přeloženo
      *

@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace matla\PigLatin;
 
+use DomainException;
+
 /**
  * PigLatinTranslator slouží k překladu řetězců z angličtiny do Pig Latin
  *
@@ -87,15 +89,41 @@ class PigLatinTranslator
      *
      * @throws /DomainException pokud vstup není identifikován jako slovo
      *
-     * @todo implement
-     *
-     * @param string $input slovo([a-Z+]) v anglickém jazyce, které má být přeloženo
+     * @param string $original slovo([a-Z+]) v anglickém jazyce, které má být přeloženo
      *
      * @return string překlad
      */
-    public function translate(string $input): string
+    public function translate(string $original): string
     {
-        return '';
+        if (!$this->isWorld($original)) {
+            throw new DomainException('Expecting $original is world ([a-Z+]) ' . $original . 'given');
+        }
+
+        preg_match("/^(?'prefix'[^aeiou]*)(?'rest'.*)$/i", $original, $matches);
+        ['prefix' => $prefix, 'rest' => $rest] = $matches;
+
+        $suffixExtension = $prefix === '' ? $this->suffixExtension : SuffixExtension::NONE();
+        $separator = $rest === '' ? Separator::NONE() : $this->separator;
+
+        $translation = $rest . $separator . $prefix . $suffixExtension . self::SUFFIX;
+
+
+        $translation = strtolower($translation);
+        if (ctype_upper($original[0])) {
+            $translation[0] = strtoupper($translation[0]);
+        }
+
+        return $translation;
+    }
+
+    private function isWorld(string $world): bool
+    {
+        $result = preg_match('/^[a-zA-Z]+$/', $world);
+        if ($result === false) {
+            throw new \RuntimeException('Something went wrong while word testing');
+        }
+
+        return (bool)$result;
     }
 }
 

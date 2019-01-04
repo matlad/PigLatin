@@ -80,9 +80,9 @@ class PigLatinTranslator
      * například _ayspray_ by jink mohlo být přeloženo jako _spray_ i _prays_
      * Tento oddělovač je defaultně pomlčka, jde však nastavit pomocí __PigLatinTranslator::setSeparator()__.
      *
-     * Tato implementace předpokládá, že Y(y) a W(w) jsou souhlásky a ignoruje tzv. nečtené souhlásky (silent consonant)
+     * Tato implementace pro zjednodušení předpokládá je samohlásky jsou vždy právě a,e,i,o,u a ignoruje tzv. nečtené souhlásky (silent consonant)
      * s kterými se jinak při překladu pracuje jako se samohláskami z důvodu toho,
-     * že tyto výjimky nelze z psané podoby rozeznat.
+     * že tyto případy nelze z psané podoby rozeznat.
      *
      * V případě onom, že vstup začíná velkým písmenem, překlad bude též začínat velkým písmenem a zbytek bode malým,
      * jinak překlad bude vše vráceno jako malé.

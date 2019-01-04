@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b5bada5b99e265b794e2e1f9fa98233e",
-    "content-hash": "cc2973956a3ab6f2870728828408a4f8",
+    "hash": "f998abb3a71efa8eca869c69150866d4",
+    "content-hash": "d20126c9147930bdb10c0d58d9121027",
     "packages": [
         {
             "name": "myclabs/php-enum",
@@ -3207,7 +3207,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2"
+        "php": "^7.1"
     },
     "platform-dev": []
 }

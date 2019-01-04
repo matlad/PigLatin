@@ -13,18 +13,42 @@ use PHPUnit\Framework\TestCase;
 
 class PigLatinTranslatorTest extends TestCase
 {
+    public function testWordsStartedWithConsonantCluster(): void
+    {
+        $examples = [
+            'beast'    => ['east-bay', 'east\'bay'],
+            'dough'    => ['ough-day', 'ough\'day'],
+            'happy'    => ['appy-hay', 'appy\'hay'],
+            'question' => ['estion-quay', 'estion\'quay'],
+            'star'     => ['ar-stay', 'ar\'stay'],
+            'three'    => ['ee-thray', 'ee\'thray'],
+        ];
 
-//In words that begin with consonant sounds, the initial consonant or consonant cluster is moved to the end
-//of the word, and "ay" is added
-//• beast → east-bay
-//• dough → ough-day
-//• happy → appy-hay
-//• question → estion-quay
-//• star → ar-stay
-//• three → ee-thray
+        $translator = new PigLatinTranslator();
 
-//In words that begin with vowel sounds or silent consonants, the syllable "ay" is added to the end of the word. In
-//some dialects, to aid in pronunciation, an extra consonant is added to the beginning of the suffix; for instance,
-//eagle could yield eagle'yay, eagle'way, or eagle'hay.
+        foreach ($examples as $input => [$expectedHyphen, $expectedApostrof]) {
+            $translator->setSeparator(Separator::HYPHEN());
+            $actualHyphen = $translator->translate($input);
+            $this->assertEquals($actualHyphen, $expectedHyphen);
 
+            $translator->setSeparator(Separator::APOSTROF());
+            $actualApostrof = $translator->translate($input);
+            $this->assertEquals($actualApostrof, $expectedApostrof);
+        }
+    }
+
+    public function testWordsStartedWithVowel(): void
+    {
+        $examples = [
+            'eagle' => ['eagle\'yay', 'eagle\'way', 'eagle\'hay', 'eagle-yay', 'eagle-way', 'eagle-hay'],
+        ];
+
+        $translator = new PigLatinTranslator();
+        foreach ($examples as $input => $possibleAnswers) {
+            $actual = $translator->translate($input);
+            $this->assertContains($actual, $possibleAnswers);
+        }
+    }
+
+   
 }

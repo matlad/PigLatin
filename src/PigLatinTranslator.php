@@ -80,9 +80,9 @@ class PigLatinTranslator
      * například _ayspray_ by jink mohlo být přeloženo jako _spray_ i _prays_
      * Tento oddělovač je defaultně pomlčka, jde však nastavit pomocí __PigLatinTranslator::setSeparator()__.
      *
-     * Tato implementace pro zjednodušení předpokládá je samohlásky jsou vždy právě a,e,i,o,u a ignoruje tzv. nečtené souhlásky (silent consonant)
-     * s kterými se jinak při překladu pracuje jako se samohláskami z důvodu toho,
-     * že tyto případy nelze z psané podoby rozeznat.
+     * Tato implementace pro zjednodušení předpokládá je samohlásky jsou vždy právě a,e,i,o,u a ignoruje tzv. nečtené
+     * souhlásky (silent consonant) s kterými se jinak při překladu pracuje jako se samohláskami z důvodu toho, že tyto
+     * případy nelze z psané podoby rozeznat.
      *
      * V případě onom, že vstup začíná velkým písmenem, překlad bude též začínat velkým písmenem a zbytek bode malým,
      * jinak překlad bude vše vráceno jako malé.
@@ -118,7 +118,20 @@ class PigLatinTranslator
 
     public function translate(string $original): string
     {
-        return preg_replace_callback('/[a-zA-Z]+/', function(array $matches){return $this->translateWorld($matches[0]);}, $original);
+        $translate = preg_replace_callback(
+            '/[a-zA-Z]+/',
+            function (array $matches) {
+                return $this->translateWorld($matches[0]);
+            },
+            $original
+        );
+
+        if(!is_string($translate))
+        {
+            throw new \RuntimeException('Something went wrong while translate using preg_replace_callback()');
+        }
+
+        return $translate;
     }
 
     private function isWorld(string $world): bool

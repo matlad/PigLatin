@@ -93,7 +93,7 @@ class PigLatinTranslator
      *
      * @return string překlad
      */
-    public function translate(string $original): string
+    public function translateWorld(string $original): string
     {
         if (!$this->isWorld($original)) {
             throw new DomainException('Expecting $original is world ([a-Z+]) ' . $original . 'given');
@@ -114,6 +114,11 @@ class PigLatinTranslator
         }
 
         return $translation;
+    }
+
+    public function translate(string $original): string
+    {
+        return preg_replace_callback('/[a-zA-Z]+/', function(array $matches){return $this->translateWorld($matches[0]);}, $original);
     }
 
     private function isWorld(string $world): bool

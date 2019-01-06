@@ -27,26 +27,26 @@ class PigLatinTranslatorTest extends TestCase
     public function provideTestWordsStartedWithConsonantClusterParams(): array
     {
         return [
-            'hyphen+beast'      => ['beast', Separator::HYPHEN(), 'east-bay',],
-            'hyphen+dough'      => ['dough', Separator::HYPHEN(), 'ough-day',],
-            'hyphen+happy'      => ['happy', Separator::HYPHEN(), 'appy-hay',],
-            'hyphen+star'       => ['star', Separator::HYPHEN(), 'ar-stay'],
-            'hyphen+three'      => ['three', Separator::HYPHEN(), 'ee-thray',],
-            'hyphen+rhythms'    => ['rhythms', Separator::HYPHEN(), 'rhythmsay'],
+            'hyphen+beast'   => ['beast', Separator::HYPHEN(), 'east-bay',],
+            'hyphen+dough'   => ['dough', Separator::HYPHEN(), 'ough-day',],
+            'hyphen+happy'   => ['happy', Separator::HYPHEN(), 'appy-hay',],
+            'hyphen+star'    => ['star', Separator::HYPHEN(), 'ar-stay'],
+            'hyphen+three'   => ['three', Separator::HYPHEN(), 'ee-thray',],
+            'hyphen+rhythms' => ['rhythms', Separator::HYPHEN(), 'rhythmsay'],
 
-            'apostrof+beast'    => ['beast', Separator::APOSTROF(), 'east\'bay'],
-            'apostrof+dough'    => ['dough', Separator::APOSTROF(), 'ough\'day'],
-            'apostrof+happy'    => ['happy', Separator::APOSTROF(), 'appy\'hay'],
-            'apostrof+star'     => ['star', Separator::APOSTROF(), 'ar\'stay'],
-            'apostrof+three'    => ['three', Separator::APOSTROF(), 'ee\'thray'],
-            'apostrof+rhythms'  => ['rhythms', Separator::APOSTROF(), 'rhythmsay'],
+            'apostrof+beast'   => ['beast', Separator::APOSTROF(), 'east\'bay'],
+            'apostrof+dough'   => ['dough', Separator::APOSTROF(), 'ough\'day'],
+            'apostrof+happy'   => ['happy', Separator::APOSTROF(), 'appy\'hay'],
+            'apostrof+star'    => ['star', Separator::APOSTROF(), 'ar\'stay'],
+            'apostrof+three'   => ['three', Separator::APOSTROF(), 'ee\'thray'],
+            'apostrof+rhythms' => ['rhythms', Separator::APOSTROF(), 'rhythmsay'],
 
-            'beast'             => ['beast', Separator::NONE(), 'eastbay'],
-            'dough'             => ['dough', Separator::NONE(), 'oughday'],
-            'happy'             => ['happy', Separator::NONE(), 'appyhay'],
-            'star'              => ['star', Separator::NONE(), 'arstay'],
-            'three'             => ['three', Separator::NONE(), 'eethray'],
-            'rhythms'           => ['rhythms', Separator::NONE(), 'rhythmsay'],
+            'beast'   => ['beast', Separator::NONE(), 'eastbay'],
+            'dough'   => ['dough', Separator::NONE(), 'oughday'],
+            'happy'   => ['happy', Separator::NONE(), 'appyhay'],
+            'star'    => ['star', Separator::NONE(), 'arstay'],
+            'three'   => ['three', Separator::NONE(), 'eethray'],
+            'rhythms' => ['rhythms', Separator::NONE(), 'rhythmsay'],
 
             'hyphen+question'   => ['question', Separator::HYPHEN(), 'uestion-qay'],
             'apostrof+question' => ['question', Separator::APOSTROF(), 'uestion\'qay'],
@@ -60,7 +60,7 @@ class PigLatinTranslatorTest extends TestCase
     public function testWordsStartedWithConsonantCluster(string $world, Separator $separator, string $expected): void
     {
         $this->translator->setSeparator($separator);
-        $actualHyphen = $this->translator->translate($world);
+        $actualHyphen = $this->translator->translateWorld($world);
         $this->assertEquals($expected, $actualHyphen);
     }
 
@@ -93,7 +93,7 @@ class PigLatinTranslatorTest extends TestCase
     ): void {
         $this->translator->setSeparator($separator);
         $this->translator->setSuffixExtension($suffixExtension);
-        $actual = $this->translator->translate($world);
+        $actual = $this->translator->translateWorld($world);
         $this->assertEquals($expected, $actual);
     }
 
@@ -114,7 +114,7 @@ class PigLatinTranslatorTest extends TestCase
     public function testThrowExceptionWhenInputNotWorld(string $notWorld): void
     {
         $this->expectException(\DomainException::class);
-        $this->translator->translate($notWorld);
+        $this->translator->translateWorld($notWorld);
     }
 
     public function provideTestCorrectLetterCaseParams(): array
@@ -135,6 +135,50 @@ class PigLatinTranslatorTest extends TestCase
     public function testCorrectLetterCase(string $englishWorld, string $expected): void
     {
 
+        $actualApostrof = $this->translator->translateWorld($englishWorld);
+        $this->assertEquals($expected, $actualApostrof);
+    }
+
+    public function provideText(): array
+    {
+        return [
+            'one world'  => ['Beast', 'East-bay',],
+            'one world2' => ['dOUGH', 'ough-day',],
+            [
+                'Enter the English text here that you want translated into
+                 Pig Latin. This is accomplished via this HTML document and
+                 accompanying JavaScript program. Note that hyphenated words
+                 are treated as two words. Words may consist of alphabetic
+                 characters only (A-Z and a-z). All punctuation, numerals,
+                 symbols and whitespace are not modified.',
+
+                'Enter-way e-thay English-way ext-tay ere-hay at-thay ou-yay ant-way anslated-tray into-way
+                 Ig-pay Atin-lay. Is-thay is-way accomplished-way ia-vay is-thay Htmlay ocument-day and-way
+                 accompanying-way Avascript-jay ogram-pray. Ote-nay at-thay enated-hyphay ords-way
+                 are-way eated-tray as-way o-tway ords-way. Ords-way ay-may onsist-cay of-way alphabetic-way
+                 aracters-chay only-way (A-way-Zay and-way a-way-zay). All-way unctuation-pay, umerals-nay,
+                 ols-symbay and-way itespace-whay are-way ot-nay odified-may.',
+            ],
+            [
+                'One morning, when Gregor Samsa woke from troubled dreams,
+                 he found himself transformed in his bed into a horrible vermin.
+                 He lay on his armour-like back,
+                 and if he lifted his head a little he could se',
+
+                'One-way orning-may, en-whay Egor-gray Amsa-say oke-way om-fray oubled-tray eams-dray,
+                 e-hay ound-fay imself-hay ansformed-tray in-way is-hay ed-bay into-way a-way orrible-hay ermin-vay.
+                 E-hay ay-lay on-way is-hay armour-way-ike-lay ack-bay,
+                 and-way if-way e-hay ifted-lay is-hay ead-hay a-way ittle-lay e-hay ould-cay e-say'
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider provideText
+     */
+    public function testText(string $englishWorld, string $expected): void
+    {
+        $this->translator->setSuffixExtension(SuffixExtension::W());
         $actualApostrof = $this->translator->translate($englishWorld);
         $this->assertEquals($expected, $actualApostrof);
     }
